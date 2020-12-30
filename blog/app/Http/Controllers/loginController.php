@@ -22,11 +22,16 @@ class loginController extends Controller
             $user->userName = $req->userName;
             $user->userType = 'farmer';
             $user->email = $req->email;
+            $user->DOB = $req->DOB;
+            $user->contact = $req->contact;
+            $user->image = 'null';
             $user->password = $req->password;
-        }
-
-        if($user->save()){
-            return redirect()->route('login');
+            $user->validity = 'valid';
+            if($user->save()){
+                return redirect()->route('login');
+            }
+        }else{
+            return redirect()->route('register');
         }
     }
 
