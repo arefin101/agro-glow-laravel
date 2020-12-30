@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\user;
+use App\category;
 
 class homeController extends Controller
 {
@@ -256,6 +257,22 @@ class homeController extends Controller
    
     }
 
+    public function addCategory(Request $req){
 
+        $user = user::find($req->session()->get('userId'));
+
+        return view('manager.addCategory',$user);
+    }
+
+    public function addedCategory(Request $req){
+
+        $category = new category;
+        
+        $category->catName = $req->category;
+
+        if($category->save()){
+            return back();
+        }
+    }
 
 }

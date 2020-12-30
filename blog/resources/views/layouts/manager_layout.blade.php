@@ -113,7 +113,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="/home/manager/addCategory" data-target="#collapseTwo"
+                <a class="nav-link collapsed" href="{{route('addCategory')}}" data-target="#collapseTwo"
                    aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fa fa-list-alt"></i>
                 <span>Add Category</span>
