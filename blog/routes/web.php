@@ -38,5 +38,14 @@ Route::group(['middleware' => ['sess']], function(){
 
     Route::get('/home/Add_Category', 'homeController@addCategory')->name('addCategory');
     Route::post('/home/Add_Category', 'homeController@addedCategory')->name('addedCategory');
+    Route::get('/home/See_Categories', 'homeController@seeCategories')->name('seeCategories');
+    Route::get('/home/Edit_Category/{id}', 'homeController@editCategory')->name('editCategory');
+    Route::post('/home/Edit_Category/{id}', 'homeController@editedCategory')->name('editedCategory');
+    Route::get('/deleteCategory{id}', 'homeController@deletedCategory');
+
+    Route::get('/home/ADD_Product', 'homeController@addProduct')->name('addProduct');
+    Route::post('/home/ADD_Product', 'homeController@addedProduct')->name('addedProduct');
+
+    Route::get('/home/Customize_Products', 'homeController@customizeProducts')->name('customizeProducts');
 
 });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\user;
 use App\category;
+use App\product;
 
 class homeController extends Controller
 {
@@ -213,7 +214,7 @@ class homeController extends Controller
                 return redirect()->route('customizeFarmer');
             }else{           
             return back();
-        }
+            }
     }
 
     public function validityFarmer(Request $req){
@@ -273,6 +274,94 @@ class homeController extends Controller
         if($category->save()){
             return back();
         }
+    }
+
+    public function seeCategories(Request $req){
+
+        $user = user::find($req->session()->get('userId'));
+
+        $categories = category::all();
+
+        return view('manager.seeCategories',$user)->with('category', $categories);
+    }
+
+    public function editCategory(Request $req, $id){
+
+        $user = user::find($req->session()->get('userId'));
+        $category = category::where('id', $id)->get();
+
+        return view('manager.editCategory',$user)->with('category', $category);
+    }
+
+    public function editedCategory(Request $req, $id){
+
+        $category = category::find($id);
+
+            $category->catName = $req->catName;
+
+            if($category->save()){
+                return redirect()->route('seeCategories');
+            }else{           
+            return back();
+            }
+    }
+
+    public function deletedCategory(Request $req){
+
+        if($req->ajax()){
+            
+            $userId = $req->get('userId');
+
+            category::find($userId)->delete($userId);
+
+        }
+   
+    }
+
+    public function addProduct(Request $req){
+
+        $user = user::find($req->session()->get('userId'));
+        $category = category::all();
+
+        return view('manager.addProduct',$user)->with('category', $category);
+    }
+
+    public function addedProduct(Request $req){
+
+        $product = new product;
+        
+        if($req->hasFile('productImage')){
+            
+            $file = $req->file('productImage');
+
+            if($file->move('upload', $file->getClientOriginalName())){
+               
+                $product->productName = $req->productName;
+                $product->category = $req->category;
+                $product->price = $req->price;
+                $product->quantity = $req->quantity;
+                $product->expDate = $req->expDate;
+                $product->description = $req->description;
+                $product->imageURL = $file->getClientOriginalName();
+
+                if($product->save()){
+                    return back();
+                }else{
+                    echo 'error';
+                }
+            }
+        }else{
+            echo 'error';
+        }
+    }
+
+    public function customizeProducts(Request $req){
+
+        $user = user::find($req->session()->get('userId'));
+
+        $products = product::all();
+
+        return view('manager.customizeProducts',$user)->with('product', $products);
     }
 
 }

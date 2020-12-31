@@ -55,7 +55,7 @@
                                                 <td>{{$seller[$i]['userName']}}</td>
                                                 <td>{{$seller[$i]['userType']}}</td>    
                                                 <td><a href="{{route('editSeller',$seller[$i]['userId'])}}" class="btn btn-primary">Edit</a>
-                                                    <input type="button" value="Delete" class="btn btn-danger" data-id="{{$seller[$i]['userId']}}" id="delete{{$seller[$i]['userId']}}"> 
+                                                    <input type="button" value="Delete" class="btn btn-danger" data-id="{{$seller[$i]['userId']}}"> 
                                                     
                                                     @if( $seller[$i]['validity'] == 'valid')
                                                         <button id="{{$seller[$i]['userId']}}"  type="button" class="btn btn-warning" data-value="{{$seller[$i]['userId']}}" >Block</button>

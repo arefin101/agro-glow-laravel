@@ -121,7 +121,7 @@
              </li>
 
              <li class="nav-item">
-                <a class="nav-link collapsed" href="/home/manager/seeCategories" data-target="#collapseTwo"
+                <a class="nav-link collapsed" href="{{route('seeCategories')}}" data-target="#collapseTwo"
                    aria-expanded="true" aria-controls="collapseTwo">
                 <i class="far fa-eye"></i>
                 <span>See Categories</span>
@@ -129,7 +129,7 @@
              </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="/home/manager/addProduct" data-target="#collapseTwo"
+                <a class="nav-link collapsed" href="{{route('addProduct')}}" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-cart-plus"></i>
                     <span>Add Products</span>
@@ -137,7 +137,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="/home/manager/customizeProducts" data-target="#collapseTwo"
+                <a class="nav-link collapsed" href="{{route('customizeProducts')}}" data-target="#collapseTwo"
                    aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-tools"></i>
                 <span>Customize Products</span>
