@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 // use Illuminate\Support\Facades\DB;
 use App\user;
+use Illuminate\Foundation\Auth\User as AuthUser;
+use Illuminate\Support\Facades\Hash;
+use Laravel\Socialite\Facades\Socialite;
 
 class loginController extends Controller
 {
@@ -58,5 +61,61 @@ class loginController extends Controller
     		return redirect()->route('login');
     	}
     }
+
+    public function google(){
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function googleRedirect(){
+        $user = Socialite::driver('google')->user();
+
+        $user = User::firstOrCreate([
+            'email' => $user->email
+        ],
+        [
+            'name' => $user->name,
+            'password' => Hash::make(Str::random(24))
+        ]);
+
+
+        
+
+        return redirect()->route('home');
+    }
+
+    public function facebook(){
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    public function facebookRedirect(){
+        $user = Socialite::driver('facebook')->user();
+
+        $user = User::firstOrCreate([
+            'email' => $user->email
+        ],
+        [
+            'name' => $user->name,
+            'password' => Hash::make(Str::random(24))
+        ]);
+
+    }
+
+    public function github(){
+        return Socialite::driver('github')->redirect();
+    }
+
+    public function githubRedirect(){
+        $user = Socialite::driver('github')->user();
+
+        $user = User::firstOrCreate([
+            'email' => $user->email
+        ],
+        [
+            'name' => $user->name,
+            'password' => Hash::make(Str::random(24))
+        ]);
+
+    }
+
 
 }

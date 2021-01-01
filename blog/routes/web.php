@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\loginController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -10,6 +11,13 @@ Route::post('/register', 'loginController@registered')->name('registered');
 
 Route::get('/login', 'loginController@login')->name('login');
 Route::post('/login', 'loginController@verify')->name('verify');
+
+Route::get('/login/google', 'loginController@google')->name('google-login');
+Route::get('/login/google/redirect', 'loginController@googleRedirect')->name('googleRedirect');
+Route::get('/login/facebook', 'loginController@facebook')->name('facebook-login');
+Route::get('/login/facebook/redirect', 'loginController@facebookRedirect')->name('facebokkRedirect');
+Route::get('/login/github', 'loginController@github')->name('github-login');
+Route::get('/login/github/redirect', 'loginController@githubRedirect')->name('githubReditrect');
 
 Route::get('/logout', 'logoutController@destroy')->name('logout');
 

@@ -62,6 +62,16 @@
                                     <div class="text-center">
                                         <a class="small" href="{{route('register')}}">Create an Account!</a>
                                     </div>
+
+                                    <p style="text-align: center;"> OR </p>
+                                    <div class="form-group row">
+                                        <div class="col-mad-6 offset-md-3">
+                                            <a href="/login/google" class="btn btn-danger btn-block">Login With Google</a>
+                                            <a href="/login/facebook" class="btn btn-primary btn-block">Login With Facebook</a>
+                                            <a href="/login/github" class="btn btn-dark btn-block">Login With Github</a>
+                                        </div>
+                                    </div>
+
                                     <div class="text-center">
                                         <a class="small" href="{{route('landing')}}">back</a>
                                     </div>
