@@ -19,18 +19,30 @@
                             <div class="form-group">
                                     <input type="text" class="form-control form-control-user" id="exampleName"
                                         placeholder="Name" name ="name" value="{{$farmer[0]['name']}}">
+                                        @error('name')
+                                    <div style="color:red; text-align:center">{{$message}}</div>
+                                    @enderror
                             </div>
                             <div class="form-group">
                                 <input type="email" class="form-control form-control-user" id="exampleInputuserName"
                                     placeholder="Email" name="email" value="{{$farmer[0]['email']}}">
+                                    @error('email')
+                                    <div style="color:red; text-align:center">{{$message}}</div>
+                                    @enderror
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control form-control-user" id="exampleInputEmail"
                                     placeholder="Date Of Birth" name="DOB" value="{{$farmer[0]['DOB']}}">
+                                    @error('DOB')
+                                    <div style="color:red; text-align:center">{{$message}}</div>
+                                    @enderror
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control form-control-user" id="exampleInputDOB"
                                     placeholder="Contact" name="contact" value="{{$farmer[0]['contact']}}">
+                                    @error('contact')
+                                    <div style="color:red; text-align:center">{{$message}}</div>
+                                    @enderror
                             </div>
                             <hr>
                             <button class="btn btn-primary btn-user btn-block">Edit farmer</button>

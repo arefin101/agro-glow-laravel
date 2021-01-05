@@ -3,16 +3,31 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\DB;
 use App\user;
 
 class loginController extends Controller
 {
+    
     public function register(){
         return view('register');
     }
 
     public function registered(Request $req){
         
+        $req->validate([
+            
+            'name'=>'required',
+            'userName'=>'required',
+            'email'=>'required',
+            'DOB'=>'required',
+            'contact'=>'required|min:11',
+            'password'=>'required',
+            'repassword'=>'required',
+            
+           ]);
+
+
         $user = new user;
 
         if($req->password == $req->repassword){
@@ -39,27 +54,30 @@ class loginController extends Controller
     }
 
     public function verify(Request $req){
+
+        $req->validate([
+            
+            'userName'=>'required',
+            'password'=>'required',
+            
+           ]);
         
         $user = user::where('userName', $req->userName)
                     ->where('password', $req->password)
-                    ->where('validity', 'valid')
                     ->get();
 
+        
         if(count($user) > 0){
+           
             $req->session()->put('userName', $req->userName);
             $req->session()->put('userType', $user[0]['userType']);
             $req->session()->put('userId', $user[0]['userId']);
+            $req->session()->put('validity', $user[0]['validity']);
+            
     		return redirect()->route('home');
     	}else{
-            $validity = user::where('validity')->get();
-            if($validity== 'invalid'){
-                $req->session()->flash('error', 'invalid username contact admin at admin@gamil.com');
-    		    return redirect()->route('login');
-            }
-            else{
-                $req->session()->flash('error', 'invalid username/password');
-    		    return redirect()->route('login');
-            }
+            $req->session()->flash('error', 'invalid username/password');
+    		return redirect()->route('login');
     	}
     }
 

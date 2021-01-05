@@ -48,14 +48,21 @@
                                             <input type="text" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
                                                 placeholder="Enter Email Address..." name="userName">
+                                                @error('userName')
+                                                <div style="color:red; text-align:center">{{$message}}</div>
+                                                @enderror
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
                                                 id="exampleInputPassword" placeholder="Password" name="password">
+                                                @error('password')
+                                                <div style="color:red; text-align:center">{{$message}}</div>
+                                                @enderror
                                         </div>
                                         <!-- <a href="/user/manager" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </a> -->
+                                        <div class="alert-danger" style="text-align:center">{{session('error')}} </div>
                                         <button class="btn btn-primary btn-user btn-block">Login</button>
                                         <hr>
                                     </form>

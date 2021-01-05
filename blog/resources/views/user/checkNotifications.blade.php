@@ -17,20 +17,22 @@
                         <div class="col-sm-12">
                             <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
                                 <thead>
-                                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 93px;">Description</th>
-                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 143px;">>Notification Type</th>
-                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 65px;">User Name</th>
-                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 31px;">User Type</th>
+                                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 93px;">Id</th>
+                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 143px;">User Name</th>
+                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 143px;">Category</th>
+                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 65px;">Product Name</th>
+                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 31px;">Quantity</th>
                                         <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 31px;">Approval</th>
                                         <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 69px;">Actions</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                        <th rowspan="1" colspan="1">Description</th>
-                                        <th rowspan="1" colspan="1">Notification Type</th>
+                                        <th rowspan="1" colspan="1">Id</th>
                                         <th rowspan="1" colspan="1">User Name</th>
-                                        <th rowspan="1" colspan="1">User Type</th>
+                                        <th rowspan="1" colspan="1">Category</th>
+                                        <th rowspan="1" colspan="1">Product Name</th>
+                                        <th rowspan="1" colspan="1">Quantity</th>
                                         <th rowspan="1" colspan="1">Approval</th>
                                         <th rowspan="1" colspan="1">Actions</th>
                                     </tr>
@@ -38,13 +40,15 @@
                                 <tbody>     
                                     @for($i = 0; $i < count($notification); $i++)
                                         <tr role="row" class="odd">
-                                            <td>{{$notification[$i]['description']}}</td>
-                                            <td>{{$notification[$i]['notificationType']}}</td>
-                                            <td>{{$notification[$i]['name']}}</td>
-                                            <td>{{$notification[$i]['userType']}}</td> 
+                                            <td>{{$notification[$i]['id']}}</td>
+                                            <td>{{$notification[$i]['user']}}</td>
+                                            <td>{{$notification[$i]['category']}}</td>
+                                            <td>{{$notification[$i]['productName']}}</td>
+                                            <td>{{$notification[$i]['quantity']}}</td> 
                                             <td id="notify{{$notification[$i]['id']}}">{{$notification[$i]['approval']}}</td>                                                
                                             <td><input type="button" value="Accept" class="btn btn-primary" data-id="{{$notification[$i]['id']}}" id="delete{{$notification[$i]['id']}}"> 
-                                                <button id="{{$notification[$i]['id']}}"  type="button" class="btn btn-warning" data-value="{{$notification[$i]['id']}}" >Reject</button></td>                                          
+                                                <button id="{{$notification[$i]['id']}}"  type="button" class="btn btn-warning" data-value="{{$notification[$i]['id']}}" >Reject</button>
+                                            </td>                                          
                                         </tr>
                                     @endfor
                                 </tbody>

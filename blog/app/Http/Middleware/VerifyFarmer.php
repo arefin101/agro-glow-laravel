@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class VerifySession
+class verifyFarmer
 {
     /**
      * Handle an incoming request.
@@ -15,11 +15,11 @@ class VerifySession
      */
     public function handle($request, Closure $next)
     {
-        if($request->session()->has('userName') && $request->session()->get('validity')=='valid'){
+        if($request->session()->has('userType')=='farmer'){
             return $next($request);
         }else{
-            $request->session()->flash('error', 'invalid request....');
-            return redirect('/login');
+            $request->session()->flash('error', 'You Have To Login First');
+            return redirect()->route('landing');
         }
     }
 }

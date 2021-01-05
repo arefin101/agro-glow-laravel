@@ -85,13 +85,13 @@
                     <div class="col-md-12">
                         <div class="container header-slider normal-slider">
                             <div class="header-slider-item">
-                                <img class="container" style="width: 40%; position: center" src="{{asset('img/pc.jpg')}}" alt="Slider Image" />
+                                <img class="container" style="width: 800px; height:350px; position: center" src="{{asset('img/farmers.jpg')}}" alt="Slider Image" />
                             </div>
                             <div class="header-slider-item">
-                                <img class="container" style="width: 40%; position: center" src="{{asset('img/game.jpg')}}" alt="Slider Image" />
+                                <img class="container" style="width: 800px; height:350px; position: center" src="{{asset('img/farmers1.jpg')}}" alt="Slider Image" />
                             </div>
                             <div class="header-slider-item">
-                                <img class="container" style="width: 40%; position: center" src="{{asset('img/baby.jpg')}}" alt="Slider Image" />
+                                <img class="container" style="width: 800px; height:350px; position: center" src="{{asset('img/farmers2.jpg')}}" alt="Slider Image" />
                             </div>
                         </div>
                     </div>
@@ -138,7 +138,7 @@
 			<div class="col-md-3">
 				<div class="product-item">
 					<div class="product-title">
-						<a href="#">{{$product[$i]['productName']}}</a>
+						<a href="{{route('addCart', $product[$i]['id'])}}">{{$product[$i]['productName']}}</a>
 						<div class="ratting">
 							<i class="fa fa-star"></i>
 							<i class="fa fa-star"></i>
@@ -148,14 +148,14 @@
 						</div>
 					</div>
 					<div class="product-image">
-						<a href="/products/{{$product[$i]['id']}}">
+						<a href="{{route('addCart', $product[$i]['id'])}}">
 							<img style="height: 200px; width: 150px" src="{{asset('upload/'.$product[$i]['imageURL'])}}" alt="Product Image">
 						</a>
 						
 					</div>
 					<div class="product-price">
 						<h3><span>$</span>{{$product[$i]['price']}}</h3>
-						<a class="btn" href="#"><i class="fa fa-shopping-cart"></i>Buy Now</a>
+						<a class="btn" href="{{route('addCart', $product[$i]['id'])}}"><i class="fa fa-shopping-cart"></i>Buy Now</a>
 					</div>
 				</div>
 			</div>
@@ -189,10 +189,10 @@
                 </div>
                 <div class="row align-items-center product-slider product-slider-4">
                     @for($i = 0; $i<count($product); $i++)
-                    <div class="col-lg-4">
+                    <div class="col-lg-5">
                         <div class="product-item">
                             <div class="product-title">
-                                <a href="#">Product Name</a>
+                                <a href="{{route('addCart', $product[$i]['id'])}}">Product Name</a>
                                 <div class="ratting">
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
@@ -202,13 +202,13 @@
                                 </div>
                             </div>
                             <div class="product-image">
-                                <a href="/products/<%= //product[i].id %>">
+                                <a href="{{route('addCart', $product[$i]['id'])}}">
                                     <img style="height: 200px; width: 150px" src="{{asset('upload/'.$product[$i]['imageURL'])}}" alt="Product Image">
                                 </a>
                             </div>
                             <div class="product-price">
                                 <h3><span>$</span>{{$product[$i]['price']}}</h3>
-                                <a class="btn" href="/products/<%= //product[i].id %>"><i class="fa fa-shopping-cart"></i>Buy Now</a>
+                                <a class="btn" href="{{route('addCart', $product[$i]['id'])}}"><i class="fa fa-shopping-cart"></i>Buy Now</a>
                             </div>
                         </div>
                     </div>
@@ -270,7 +270,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <p class="container" style="color: white; text-align: center;">Computer Shop</p>
+                        <p class="container" style="color: white; text-align: center;">Agro Glow</p>
                     </div>
 
                 </div>
@@ -289,5 +289,14 @@
         
         <!-- Template Javascript -->
         <script src="{{asset('js/main.js')}}"></script>
+
+        <script>
+            if("{{session('error')}}" == ''){
+
+            }else{
+                window.alert('{{session('error')}}');
+            }
+        </script>
+        
     </body>
 </html>
