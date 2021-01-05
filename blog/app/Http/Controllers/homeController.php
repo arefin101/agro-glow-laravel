@@ -47,7 +47,10 @@ class homeController extends Controller
         $tasks = ($acceptedRequest/$totalRequest)*100;
         $pendingRequests = $totalRequest - $acceptedRequest;
 
-        if($req->session()->get('userType') == 'manager'){
+        if($req->session()->get('userType') == 'admin'){
+            return redirect()->route('admin');
+        }
+        else if($req->session()->get('userType') == 'manager'){
             return view('user.home', $user)->with('total', $total)->with('tasks', $tasks)->with('pendingRequests', $pendingRequests);
         }else if($req->session()->get('userType') == 'farmer'){
             return view('landingFarmer', $user)->with('product', $products)->with('user', 'user');

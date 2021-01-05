@@ -50,7 +50,7 @@
                                                 <td>{{$product[$i]['price']}}</td>
                                                 <td>{{$product[$i]['quantity']}}</td>
                                                 <td>{{$product[$i]['expDate']}}</td>                                                
-                                                <td><a href="{{route('editProduct', $product[$i]['id'] )}}" class="btn btn-primary">Edit</a>
+                                                <td><a href="{{route('admin_editProduct', $product[$i]['id'] )}}" class="btn btn-primary">Edit</a>
                                                     <a href="{{route('deleteProduct', $product[$i]['id'] )}}" class="btn btn-danger">Delete</a>
                                                 </td>                                                
                                         </tr>

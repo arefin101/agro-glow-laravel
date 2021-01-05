@@ -28,8 +28,10 @@
                   name="category"
                   type="text"
                   class="form-control validate"
-                  required
                 />
+                @error('name')
+                <div style="color:red; text-align:center">{{$message}}</div>
+                @enderror
               </div>
               <div class="col-12">
                 <button type="submit" class="btn btn-primary btn-block text-uppercase">Add Category Now</button>

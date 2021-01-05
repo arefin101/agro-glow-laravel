@@ -16,32 +16,53 @@
                             @csrf
                             <div class="form-group">
                                     <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                        placeholder="Name" name = "name">
+                                        placeholder="Name" name = "name" value="{{ old('name') }}">
+                                @error('name')
+                                <div style="color:red; text-align:center">{{$message}}</div>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control form-control-user" id="exampleInputuserName"
-                                    placeholder="User Name" name="userName">
+                                    placeholder="User Name" name="userName" value="{{ old('userName') }}">
+                                @error('userName')
+                                <div style="color:red; text-align:center">{{$message}}</div>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                    placeholder="Email Address" name="email">
+                                    placeholder="Email Address" name="email" value="{{ old('email') }}">
+                                @error('email')
+                                <div style="color:red; text-align:center">{{$message}}</div>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control form-control-user" id="exampleInputDOB"
-                                    placeholder="Date of Birth" name="DOB">
+                                    placeholder="Date of Birth" name="DOB" value="{{ old('DOB') }}">
+                                @error('DOB')
+                                <div style="color:red; text-align:center">{{$message}}</div>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control form-control-user" id="exampleInputphoneNo"
-                                    placeholder="Phone Number" name="contact">
+                                    placeholder="Phone Number" name="contact" value="{{ old('contact') }}">
+                                @error('contact')
+                                <div style="color:red; text-align:center">{{$message}}</div>
+                                @enderror
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <input type="password" class="form-control form-control-user"
                                         id="exampleInputPassword" placeholder="Password" name="password">
+                                @error('password')
+                                <div style="color:red; text-align:center">{{$message}}</div>
+                                @enderror
                                 </div>
                                 <div class="col-sm-6">
                                     <input type="password" class="form-control form-control-user"
                                         id="exampleRepeatPassword" placeholder="Repeat Password" name="repassword">
+                                        @error('repassword')
+                                        <div style="color:red; text-align:center">{{$message}}</div>
+                                        @enderror
                                 </div>
                             </div>
                             <hr>
