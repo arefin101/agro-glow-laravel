@@ -17,5 +17,9 @@
         "resolve-url-loader": "^3.1.0",
         "sass": "^1.15.2",
         "sass-loader": "^8.0.0"
+    },
+    "dependencies": {
+        "update": "^0.7.4",
+        "upgrade": "^1.1.0"
     }
 }
