@@ -42,16 +42,10 @@
                             <a href="#" class="nav-item nav-link active" style="color: white;">Home</a>
 						</div>
 						<div class="navbar-nav mr-auto">
-                            <a href="#" class="nav-item nav-link active" style="color: white;">User</a>
+                            <a href="#" class="nav-item nav-link active" style="color: white;">{{$name}}</a>
                         </div>
-                        <div class="navbar-nav ml-auto">
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Account</a>
-                                <div class="dropdown-menu">
-                                    <a href="{{route('login')}}" class="dropdown-item">Login</a>
-                                    <a href="{{route('register')}}" class="dropdown-item">Register</a>
-                                </div>
-                            </div>
+                        <div class="navbar-nav">
+                                <a style="color: white" href="{{route('logout')}}">Logout</a>
                         </div>
                     </div>
                 </nav>

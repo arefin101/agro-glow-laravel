@@ -75,8 +75,9 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="{{route('seeSellers')}}">See Sellers</a>
-                        <a class="collapse-item" href="{{route('seeFarmers')}}">See Farmers</a>
+                        <a class="collapse-item" href="{{route('admin_seeManagers')}}">See Managers</a>
+                        <a class="collapse-item" href="{{route('admin_seeSellers')}}">See Sellers</a>
+                        <a class="collapse-item" href="{{route('admin_seeFarmers')}}">See Farmers</a>
                     </div>
                 </div>
             </li>
@@ -90,8 +91,9 @@
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="{{route('addSeller')}}">Add Seller</a>
-                        <a class="collapse-item" href="{{route('addFarmer')}}">Add Farmer</a>
+                        <a class="collapse-item" href="{{route('admin_addManager')}}">Add Manager</a>
+                        <a class="collapse-item" href="{{route('admin_addSeller')}}">Add Seller</a>
+                        <a class="collapse-item" href="{{route('admin_addFarmer')}}">Add Farmer</a>
                     </div>
                 </div>
             </li>
@@ -106,14 +108,15 @@
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="{{route('customizeSeller')}}">Sellers</a>
-                        <a class="collapse-item" href="{{route('customizeFarmer')}}">Farmers</a>
+                        <a class="collapse-item" href="{{route('admin_customizeManager')}}">Managers</a>
+                        <a class="collapse-item" href="{{route('admin_customizeSeller')}}">Sellers</a>
+                        <a class="collapse-item" href="{{route('admin_customizeFarmer')}}">Farmers</a>
                     </div>
                 </div>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{{route('addCategory')}}" data-target="#collapseTwo"
+                <a class="nav-link collapsed" href="{{route('admin_addCategory')}}" data-target="#collapseTwo"
                    aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fa fa-list-alt"></i>
                 <span>Add Category</span>
@@ -121,7 +124,7 @@
              </li>
 
              <li class="nav-item">
-                <a class="nav-link collapsed" href="{{route('seeCategories')}}" data-target="#collapseTwo"
+                <a class="nav-link collapsed" href="{{route('admin_seeCategories')}}" data-target="#collapseTwo"
                    aria-expanded="true" aria-controls="collapseTwo">
                 <i class="far fa-eye"></i>
                 <span>See Categories</span>
@@ -129,7 +132,7 @@
              </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{{route('addProduct')}}" data-target="#collapseTwo"
+                <a class="nav-link collapsed" href="{{route('admin_addProduct')}}" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-cart-plus"></i>
                     <span>Add Products</span>
@@ -137,7 +140,15 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{{route('customizeProducts')}}" data-target="#collapseTwo"
+                <a class="nav-link collapsed" href="{{route('admin_seeProduct')}}" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-cart-plus"></i>
+                    <span>See Products</span>
+                </a>                
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{route('admin_customizeProducts')}}" data-target="#collapseTwo"
                    aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-tools"></i>
                 <span>Customize Products</span>
@@ -145,30 +156,28 @@
              </li>
 
              <li class="nav-item">
-                <a class="nav-link collapsed" href="{{route('checkNotifications')}}" data-target="#collapseTwo"
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#reportUtilities"
+                    aria-expanded="true" aria-controls="reportUtilities">
+                    <i class="fas fa-fw fa-wrench"></i>
+                    <span>Reports</span>
+                </a>
+                <div id="reportUtilities" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{{route('admin_salesReport')}}">Sales Report</a>
+                        <a class="collapse-item" href="{{route('admin_purchaseReport')}}">Purchase Report</a>
+                    </div>
+                </div>
+            </li>
+
+             <li class="nav-item">
+                <a class="nav-link collapsed" href="{{route('admin_checkNotifications')}}" data-target="#collapseTwo"
                    aria-expanded="true" aria-controls="collapseTwo">
                 <i class="far fa-comment"></i>
                 <span>Check Notifications</span>
                 </a>
              </li>
             
-
-            
-
-            <!-- Nav Item - Charts -->
-            <!-- <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
-            </li> -->
-
-            <!-- Nav Item - Tables -->
-            <!-- <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-            </li> -->
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -176,14 +185,6 @@
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-
-            <!-- Sidebar Message -->
-            <!-- <div class="sidebar-card">
-                <img class="sidebar-card-illustration mb-2" src="/assets/img/undraw_rocket.svg" alt="">
-                <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
-                <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
-            </div> -->
-
         </ul>
         <!-- End of Sidebar -->
 
@@ -250,12 +251,12 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{$name}}</span>
                                 <img class="img-profile rounded-circle"
-                                    src="{{asset('img/manager.jpg')}}">
+                                    src="{{asset('img/admin.jpg')}}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="/home/manager/profile">
+                                <a class="dropdown-item" href="{{route('profile')}}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>

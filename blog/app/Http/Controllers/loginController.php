@@ -3,11 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\DB;
 use App\user;
-use Illuminate\Foundation\Auth\User as AuthUser;
-use Illuminate\Support\Facades\Hash;
-use Laravel\Socialite\Facades\Socialite;
 
 class loginController extends Controller
 {
@@ -46,76 +42,25 @@ class loginController extends Controller
         
         $user = user::where('userName', $req->userName)
                     ->where('password', $req->password)
+                    ->where('validity', 'valid')
                     ->get();
 
-        
         if(count($user) > 0){
-           
             $req->session()->put('userName', $req->userName);
             $req->session()->put('userType', $user[0]['userType']);
             $req->session()->put('userId', $user[0]['userId']);
-            
     		return redirect()->route('home');
     	}else{
-            $req->session()->flash('error', 'invalid username/password');
-    		return redirect()->route('login');
+            $validity = user::where('validity')->get();
+            if($validity== 'invalid'){
+                $req->session()->flash('error', 'invalid username contact admin at admin@gamil.com');
+    		    return redirect()->route('login');
+            }
+            else{
+                $req->session()->flash('error', 'invalid username/password');
+    		    return redirect()->route('login');
+            }
     	}
     }
-
-    public function google(){
-        return Socialite::driver('google')->redirect();
-    }
-
-    public function googleRedirect(){
-        $user = Socialite::driver('google')->user();
-
-        $user = User::firstOrCreate([
-            'email' => $user->email
-        ],
-        [
-            'name' => $user->name,
-            'password' => Hash::make(Str::random(24))
-        ]);
-
-
-        
-
-        return redirect()->route('home');
-    }
-
-    public function facebook(){
-        return Socialite::driver('facebook')->redirect();
-    }
-
-    public function facebookRedirect(){
-        $user = Socialite::driver('facebook')->user();
-
-        $user = User::firstOrCreate([
-            'email' => $user->email
-        ],
-        [
-            'name' => $user->name,
-            'password' => Hash::make(Str::random(24))
-        ]);
-
-    }
-
-    public function github(){
-        return Socialite::driver('github')->redirect();
-    }
-
-    public function githubRedirect(){
-        $user = Socialite::driver('github')->user();
-
-        $user = User::firstOrCreate([
-            'email' => $user->email
-        ],
-        [
-            'name' => $user->name,
-            'password' => Hash::make(Str::random(24))
-        ]);
-
-    }
-
 
 }
