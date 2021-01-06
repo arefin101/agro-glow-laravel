@@ -146,6 +146,53 @@ Route::group(['middleware' => ['sess']], function(){
 
     Route::get('/downloadPDF','homeController@downloadPDF')->name('pdf');
 
+    ///////seller route
+
+    Route::get('/home', 'homeController@home')->name('home');
+    Route::get('/home/Seller_List', 'sellerController@seeSellers')->name('seeSellers');
+    Route::get('/home/Farmer_List', 'sellerController@seeFarmers')->name('seeFarmers');
+    Route::get('/home/Profile', 'sellerController@profile')->name('profiles');
+    Route::post('/home/Profile', 'sellerController@profile_edited')->name('profile_edited');
+
+    Route::get('/home/Add_seller', 'sellerController@addSeller')->name('addSeller');
+    Route::post('/home/Add_seller', 'sellerController@addedSeller')->name('addedSeller');    
+     Route::get('/home/Add_Farmer', 'sellerController@addFarmer')->name('addFarmer');
+    Route::post('/home/Add_Farmer', 'sellerController@addedFarmer')->name('addedFarmer');
+    
+    Route::get('/home/Customize_Seller', 'sellerController@customizeSeller')->name('customizeSeller');
+    Route::get('/home/Edit_Seller/{id}', 'sellerController@editSeller')->name('editSeller');
+    Route::post('/home/Edit_Seller/{id}', 'sellerController@editedSeller')->name('editedSeller');
+    Route::get('/validitySeller', 'sellerController@validitySeller');
+    Route::get('/deleteSeller{id}', 'sellerController@deleteSeller');
+
+    Route::get('/home/Customize_Farmer', 'sellerController@customizeFarmer')->name('customizeFarmer');
+    Route::get('/home/Edit_Farmer/{id}', 'sellerController@editFarmer')->name('editFarmer');
+    Route::post('/home/Edit_Farmer/{id}', 'sellerController@editedFarmer')->name('editedFarmer');
+    Route::get('/validityFarmer', 'sellerController@validityFarmer');
+    Route::get('/deleteFarmer{id}', 'sellerController@deleteFarmer');
+
+    Route::get('/home/Add_Category', 'sellerController@addCategory')->name('addCategory');
+    Route::post('/home/Add_Category', 'sellerController@addedCategory')->name('addedCategory');
+    Route::get('/home/See_Categories', 'sellerController@seeCategories')->name('seeCategories');
+    Route::get('/home/Edit_Category/{id}', 'sellerController@editCategory')->name('editCategory');
+    Route::post('/home/Edit_Category/{id}', 'sellerController@editedCategory')->name('editedCategory');
+    Route::get('/deleteCategory{id}', 'sellerController@deletedCategory');
+
+    Route::get('/home/ADD_Product', 'sellerController@addProduct')->name('addProduct');
+    Route::post('/home/ADD_Product', 'sellerController@addedProduct')->name('addedProduct');
+
+    Route::get('/home/Customize_Products', 'sellerController@customizeProducts')->name('customizeProducts');
+    Route::get('/home/Edit_Product/{id}', 'sellerController@editProduct')->name('editProduct');
+    Route::post('/home/Edit_Product/{id}', 'sellerController@editedProduct')->name('editedProduct');
+    Route::get('/home/Delete_Product/{id}', 'sellerController@deleteProduct')->name('deleteProduct');
+    Route::post('/home/Delete_Product/{id}', 'sellerController@deletedProduct')->name('deletedProduct');
+
+    Route::get('/home/Check_Notifications', 'sellerController@checkNotifications')->name('checkNotifications');
+    Route::get('/accepted{id}', 'sellerController@accepted');
+    Route::get('/rejected{id}', 'sellerController@rejected');
+
+    Route::get('/downloadPDF','sellerController@downloadPDF')->name('pdf');
+
 });
 
 Route::group(['middleware' => ['verifyFarmer']], function(){

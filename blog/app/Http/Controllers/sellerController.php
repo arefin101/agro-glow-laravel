@@ -12,40 +12,14 @@ use App\productRequest;
 use GuzzleHttp\Client;
 use PDF;
 
-class homeController extends Controller
+class sellerController extends Controller
 {
 
     public function downloadPDF() {
         
         $show = productRequest::all();
-        $notification = productRequest::all();
-        $total = 0;
-        $totalRequest = 0;
-        $acceptedRequest = 0;
-        $tasks = 0;
-        $pendingRequests = 0;
 
-
-        if(count($notification)==0){
-            $totalRequest = 0;
-            $total = 0;
-            $acceptedRequest = 0;
-            $tasks = 0;
-            $pendingRequests = 0;
-        }else{           
-            for($i = 0; $i < count($notification); $i++){
-                $totalRequest = $totalRequest + 1;
-                if($notification[$i]['approval'] == 'served'){
-                    $total = $total + $notification[$i]['price'];
-                    $acceptedRequest = $acceptedRequest + 1;
-                }
-            }
-            $tasks = $acceptedRequest;
-            $pendingRequests = $totalRequest - $acceptedRequest;
-        }
-
-
-        $pdf = PDF::loadView('user.pdf', compact('show'), compact('total', 'tasks', 'pendingRequests'));
+        $pdf = PDF::loadView('user.pdf', compact('show'));
         
         return $pdf->download('productRequest.pdf');
     }
@@ -62,34 +36,18 @@ class homeController extends Controller
         $pendingRequests = 0;
 
 
-        if(count($notification)==0){
-            $totalRequest = 0;
-            $total = 0;
-            $acceptedRequest = 0;
-            $tasks = 0;
-            $pendingRequests = 0;
-        }else{           
-            for($i = 0; $i < count($notification); $i++){
-                $totalRequest = $totalRequest + 1;
-                if($notification[$i]['approval'] == 'served'){
-                    $total = $total + $notification[$i]['price'];
-                    $acceptedRequest = $acceptedRequest + 1;
-                }
+        for($i = 0; $i < count($notification); $i++){
+            $totalRequest = $totalRequest + 1;
+            if($notification[$i]['approval'] == 'accepted'){
+                $total = $total + $notification[$i]['price'];
+                $acceptedRequest = $acceptedRequest + 1;
             }
-            $tasks = ($acceptedRequest/$totalRequest)*100;
-            $pendingRequests = $totalRequest - $acceptedRequest;
         }
 
-<<<<<<< Updated upstream
-=======
         //$tasks = ($acceptedRequest/$totalRequest)*100;
         $pendingRequests = $totalRequest - $acceptedRequest;
->>>>>>> Stashed changes
 
-        if($req->session()->get('userType') == 'admin'){
-            return redirect()->route('admin');
-        }
-        else if($req->session()->get('userType') == 'manager'){
+        if($req->session()->get('userType') == 'manager'){
             return view('user.home', $user)->with('total', $total)->with('tasks', $tasks)->with('pendingRequests', $pendingRequests);
         }
         else if($req->session()->get('userType') == 'seller'){
@@ -108,7 +66,7 @@ class homeController extends Controller
         $userInfo = user::where('userId', $user['userId'])
                     ->get();
 
-        return view('user.profile',$user)->with('userInfo', $userInfo);
+        return view('seller.profile',$user)->with('userInfo', $userInfo);
     }
 
     public function profile_edited(Request $req){
@@ -140,11 +98,11 @@ class homeController extends Controller
         $user = user::find($req->session()->get('userId'));
         $client = new Client();
 
-        $response = $client->request('GET', 'http://localhost:4000/getSellers');
+        $response = $client->request('GET', 'http://localhost:5000/getSellers');
         if ($response->getStatusCode() == 200) {
             $sellers = json_decode($response->getBody(), true);
             $seller = json_decode($sellers, true);
-            return view('user.seeSellers',$user)->with('seller', $seller);
+            return view('user.seller.seeSellers',$user)->with('seller', $seller);
         } else {
             echo "Not get";
         }
@@ -162,11 +120,11 @@ class homeController extends Controller
         $user = user::find($req->session()->get('userId'));
         $client = new Client();
 
-        $response = $client->request('GET', 'http://localhost:4000/getSellers');
+        $response = $client->request('GET', 'http://localhost:5000/getSellers');
         if ($response->getStatusCode() == 200) {
             $sellers = json_decode($response->getBody(), true);
             $seller = json_decode($sellers, true);
-            return view('user.seeSellers',$user)->with('seller', $seller);
+            return view('user.seller.seeSellers',$user)->with('seller', $seller);
         } else {
             echo "Not get";
         }
@@ -184,11 +142,11 @@ class homeController extends Controller
         $user = user::find($req->session()->get('userId'));
         $client = new Client();
 
-        $response = $client->request('GET', 'http://localhost:4000/getFarmers');
+        $response = $client->request('GET', 'http://localhost:5000/getFarmers');
         if ($response->getStatusCode() == 200) {
             $farmers = json_decode($response->getBody(), true);
             $farmer = json_decode($farmers, true);
-            return view('user.seeFarmers',$user)->with('farmer', $farmer);
+            return view('user.seller.seeFarmers',$user)->with('farmer', $farmer);
         } else {
             echo "Not get";
         }
@@ -250,7 +208,7 @@ class homeController extends Controller
 
         $user = user::find($req->session()->get('userId'));
 
-        return view('user.addFarmer',$user);
+        return view('user.seller.addFarmer',$user);
     }
 
     public function addedFarmer(Request $req){
@@ -283,7 +241,7 @@ class homeController extends Controller
             $farmer->validity = 'valid';
 
             if($farmer->save()){
-                return redirect()->route('customizeFarmer');
+                return redirect()->route('customizeFarmers');
             }
         }else{           
             return redirect()->route('addFarmer');
@@ -297,7 +255,7 @@ class homeController extends Controller
         $sellers = user::where('userType', 'seller')
                         ->get();
 
-        return view('user.customizeSeller',$user)->with('seller', $sellers);
+        return view('user.seller.customizeSeller',$user)->with('seller', $sellers);
     }
 
     public function editSeller(Request $req, $id){
@@ -305,7 +263,7 @@ class homeController extends Controller
         $user = user::find($req->session()->get('userId'));
         $seller = user::where('userId', $id)->get();
 
-        return view('user.editSeller',$user)->with('seller', $seller);
+        return view('user.seller.editSeller',$user)->with('seller', $seller);
     }
 
     public function editedSeller(Request $req, $id){
@@ -381,7 +339,7 @@ class homeController extends Controller
         $farmers = user::where('userType', 'farmer')
                         ->get();
 
-        return view('user.customizeFarmer',$user)->with('farmer', $farmers);
+        return view('user.seller.customizeFarmer',$user)->with('farmer', $farmers);
     }
 
     public function editFarmer(Request $req, $id){
@@ -389,7 +347,7 @@ class homeController extends Controller
         $user = user::find($req->session()->get('userId'));
         $farmer = user::where('userId', $id)->get();
 
-        return view('user.editFarmer',$user)->with('farmer', $farmer);
+        return view('user.seller.editFarmer',$user)->with('farmer', $farmer);
     }
 
     public function editedFarmer(Request $req, $id){
@@ -462,14 +420,14 @@ class homeController extends Controller
 
         $user = user::find($req->session()->get('userId'));
 
-        return view('user.addCategory',$user);
+        return view('user.seller.addCategory',$user);
     }
 
     public function addedCategory(Request $req){
 
         $req->validate([
             
-            'category'=>'required',
+            'name'=>'required',
             
            ]);
 
@@ -488,7 +446,7 @@ class homeController extends Controller
 
         $categories = category::all();
 
-        return view('user.seeCategories',$user)->with('category', $categories);
+        return view('user.seller.seeCategories',$user)->with('category', $categories);
     }
 
     public function editCategory(Request $req, $id){
@@ -496,7 +454,7 @@ class homeController extends Controller
         $user = user::find($req->session()->get('userId'));
         $category = category::where('id', $id)->get();
 
-        return view('user.editCategory',$user)->with('category', $category);
+        return view('user.seller.editCategory',$user)->with('category', $category);
     }
 
     public function editedCategory(Request $req, $id){
@@ -529,7 +487,7 @@ class homeController extends Controller
         $user = user::find($req->session()->get('userId'));
         $category = category::all();
 
-        return view('user.addProduct',$user)->with('category', $category);
+        return view('user.seller.addProduct',$user)->with('category', $category);
     }
 
     public function addedProduct(Request $req){
@@ -563,7 +521,7 @@ class homeController extends Controller
                 $product->imageURL = $file->getClientOriginalName();
 
                 if($product->save()){
-                    return redirect()->route('customizeProducts');
+                    return back();
                 }else{
                     echo 'error';
                 }
@@ -579,7 +537,7 @@ class homeController extends Controller
 
         $products = product::all();
 
-        return view('user.customizeProducts',$user)->with('product', $products);
+        return view('user.seller.customizeProducts',$user)->with('product', $products);
     }
 
     public function editProduct(Request $req, $id){
@@ -588,7 +546,7 @@ class homeController extends Controller
         $product = product::where('id', $id)->get();
         $categories = category::all();
 
-        return view('user.editProduct',$user)->with('product', $product)->with('category', $categories);
+        return view('user.seller.editProduct',$user)->with('product', $product)->with('category', $categories);
     }
 
     public function editedProduct(Request $req, $id){
@@ -629,7 +587,7 @@ class homeController extends Controller
         $user = user::find($req->session()->get('userId'));
         $product = product::find($id);
 
-        return view('user.deleteProduct', $user)->with('product', $product);
+        return view('user.seller.deleteProduct', $user)->with('product', $product);
    
     }
 
@@ -645,7 +603,7 @@ class homeController extends Controller
         $user = user::find($req->session()->get('userId'));
         $notifications = productRequest::all();
 
-        return view('user.checkNotifications',$user)->with('notification', $notifications);
+        return view('user.seller.checkNotifications',$user)->with('notification', $notifications);
     }
 
     public function accepted(Request $req){
@@ -656,7 +614,7 @@ class homeController extends Controller
 
             $notification = productRequest::find($requestId);
 
-            $notification->approval = 'served';
+            $notification->approval = 'accepted';
 
             $notification->save();
         
@@ -671,7 +629,7 @@ class homeController extends Controller
 
             $notification = productRequest::find($requestId);
 
-            $notification->approval = 'pending';
+            $notification->approval = 'rejected';
 
             $notification->save();
         
