@@ -54,7 +54,7 @@
                                                 <td>{{$manager[$i]['contact']}}</td>
                                                 <td>{{$manager[$i]['userName']}}</td>
                                                 <td>{{$manager[$i]['userType']}}</td>    
-                                                <td><a href="{{route('editManager',$manager[$i]['userId'])}}" class="btn btn-primary">Edit</a>
+                                                <td><a href="{{route('admin_editManager',$manager[$i]['userId'])}}" class="btn btn-primary">Edit</a>
                                                     <input type="button" value="Delete" class="btn btn-danger" data-id="{{$manager[$i]['userId']}}"> 
                                                     
                                                     @if( $manager[$i]['validity'] == 'valid')

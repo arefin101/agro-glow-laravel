@@ -7,40 +7,75 @@ use App\user;
 use App\category;
 use App\product;
 use App\notification;
+use App\productRequest;
+use App\productPurchased;
 
 class adminController extends Controller
 {
 
     public function home(Request $req){
-
         $user = user::find($req->session()->get('userId'));
+        $products = product::all();
+        $notification = productRequest::all();
+        $total = 0;
+        $totalRequest = 0;
+        $purchaseTotal = 0;
+        $acceptedRequest = 0;
+        $tasks = 0;
+        $pendingRequests = 0;
+
+
+        for($i = 0; $i < count($notification); $i++){
+            $totalRequest = $totalRequest + 1;
+            if($notification[$i]['approval'] == 'accepted'){
+                $total = $total + $notification[$i]['price'];
+                $acceptedRequest = $acceptedRequest + 1;
+            }
+        }
+
+        for($i = 0; $i < count($products); $i++){
+            $purchaseTotal = $purchaseTotal + ((float)$products[$i]['price']*(int)$products[$i]['quantity']);
+        }
+
+        $tasks = ($acceptedRequest/$totalRequest)*100;
+        $pendingRequests = $totalRequest - $acceptedRequest;
       
-            return view('user.admin.adminDashboard', $user);
+            return view('user.admin.adminDashboard', $user)->with('total', $total)->with('purchaseTotal', $purchaseTotal)->with('tasks', $tasks)->with('pendingRequests', $pendingRequests);
     }
 
 
-    public function profile(Request $req, $id){
+    public function profile(Request $req){
 
         $user = user::find($req->session()->get('userId'));
-        $admin = user::where('userId', $id)->get();
 
-        return view('user.admin.profile',$user)->with('admin', $admin);
+        $userInfo = user::where('userId', $user['userId'])
+                    ->get();
+
+        return view('user.admin.profile',$user)->with('userInfo', $userInfo);
     }
 
-    public function editedProfile(Request $req, $id){
+    public function profile_edited(Request $req){
 
-        $user = user::find($id);
+        $req->validate([
+            'name'=>'required',
+            'email'=>'required',
+            'DOB'=>'required',
+            'contact'=>'required|min:11|max:11',
+            
+           ]);
 
-            $user->name = $req->name;
-            $user->email = $req->email;
-            $user->DOB = $req->DOB;
-            $user->contact = $req->contact;
+        $user = user::find($req->session()->get('userId'));
+        $userInfo = user::where('userId', $user['userId'])
+                    ->get();
+
+        $user->name = $req->name;
+        $user->email = $req->email;
+        $user->DOB = $req->DOB;
+        $user->contact = $req->contact;
 
             if($user->save()){
-                return redirect()->route('admin');
-            }else{           
-            return back();
-        }
+                return back();
+            }
     }
 
     public function seeManagers(Request $req){
@@ -82,6 +117,18 @@ class adminController extends Controller
 
     public function addedManager(Request $req){
 
+        $req->validate([
+            
+            'name'=>'required',
+            'userName'=>'required',
+            'email'=>'required',
+            'DOB'=>'required',
+            'contact'=>'required|min:11',
+            'password'=>'required',
+            'repassword'=>'required',
+            
+           ]);
+
         $user = user::find($req->session()->get('userId'));
         $manager = new user;
 
@@ -114,6 +161,19 @@ class adminController extends Controller
 
     public function addedSeller(Request $req){
 
+
+        $req->validate([
+            
+            'name'=>'required',
+            'userName'=>'required',
+            'email'=>'required',
+            'DOB'=>'required',
+            'contact'=>'required|min:11',
+            'password'=>'required',
+            'repassword'=>'required',
+            
+           ]);
+
         $user = user::find($req->session()->get('userId'));
         $seller = new user;
 
@@ -145,6 +205,18 @@ class adminController extends Controller
     }
 
     public function addedFarmer(Request $req){
+
+        $req->validate([
+            
+            'name'=>'required',
+            'userName'=>'required',
+            'email'=>'required',
+            'DOB'=>'required',
+            'contact'=>'required|min:11',
+            'password'=>'required',
+            'repassword'=>'required',
+            
+           ]);
 
         $user = user::find($req->session()->get('userId'));
         $farmer = new user;
@@ -194,22 +266,31 @@ class adminController extends Controller
         $user = user::find($req->session()->get('userId'));
         $manager = user::where('userId', $id)->get();
 
-        return view('user.admin.editSeller',$user)->with('manager', $manager);
+        return view('user.admin.editManager',$user)->with('manager', $manager);
     }
 
     public function editedManager(Request $req, $id){
 
+        $req->validate([
+            
+            'name'=>'required',
+            'email'=>'required',
+            'DOB'=>'required',
+            'contact'=>'required|min:11',
+            
+           ]);
+
         $user = user::find($id);
 
-            $user->name = $req->name;
-            $user->email = $req->email;
-            $user->DOB = $req->DOB;
-            $user->contact = $req->contact;
+        $user->name = $req->name;
+        $user->email = $req->email;
+        $user->DOB = $req->DOB;
+        $user->contact = $req->contact;
 
-            if($user->save()){
-                return redirect()->route('admin_customizeManager');
-            }else{           
-            return back();
+        if($user->save()){
+            return redirect()->route('admin_customizeManager');
+        }else{           
+        return back();
         }
     }
 
@@ -260,6 +341,15 @@ class adminController extends Controller
     }
 
     public function editedSeller(Request $req, $id){
+
+        $req->validate([
+            
+            'name'=>'required',
+            'email'=>'required',
+            'DOB'=>'required',
+            'contact'=>'required|min:11',
+            
+           ]);
 
         $user = user::find($id);
 
@@ -333,6 +423,15 @@ class adminController extends Controller
 
     public function editedFarmer(Request $req, $id){
 
+        $req->validate([
+            
+            'name'=>'required',
+            'email'=>'required',
+            'DOB'=>'required',
+            'contact'=>'required|min:11',
+            
+           ]);
+
         $user = user::find($id);
 
             $user->name = $req->name;
@@ -395,6 +494,12 @@ class adminController extends Controller
 
     public function addedCategory(Request $req){
 
+        $req->validate([
+            
+            'name'=>'required',
+            
+           ]);
+           
         $category = new category;
         
         $category->catName = $req->category;
@@ -425,13 +530,13 @@ class adminController extends Controller
 
         $category = category::find($id);
 
-            $category->catName = $req->catName;
+        $category->catName = $req->catName;
 
-            if($category->save()){
-                return redirect()->route('admin_seeCategories');
-            }else{           
-            return back();
-            }
+        if($category->save()){
+            return redirect()->route('admin_seeCategories');
+        }else{           
+        return back();
+        }
     }
 
     public function deletedCategory(Request $req){
@@ -456,7 +561,20 @@ class adminController extends Controller
 
     public function addedProduct(Request $req){
 
+        $req->validate([
+            
+            'productName'=>'required',
+            'category'=>'required',
+            'price'=>'integer',
+            'quantity'=>'integer',
+            'expDate'=>'required',
+            'description'=>'required',
+            'productImage'=>'required',
+            
+           ]);
+
         $product = new product;
+        $productPurchased = new productPurchased;
         
         if($req->hasFile('productImage')){
             
@@ -472,8 +590,13 @@ class adminController extends Controller
                 $product->description = $req->description;
                 $product->imageURL = $file->getClientOriginalName();
 
-                if($product->save()){
-                    return back();
+                $productPurchased->name = $req->productName;
+                $productPurchased->category = $req->category;
+                $productPurchased->price = $req->price;
+                $productPurchased->quantity = $req->quantity;
+
+                if($product->save() && $productPurchased->save()){
+                    return redirect()->route('admin_seeProduct');
                 }else{
                     echo 'error';
                 }
@@ -530,7 +653,7 @@ class adminController extends Controller
                 $product->imageURL = $file->getClientOriginalName();
 
                 if($product->save()){
-                    return redirect()->route('admin_seeProduct');
+                    return redirect()->route('admin_customizeProducts');
                 }else{
                     return back();
                 }
@@ -559,9 +682,27 @@ class adminController extends Controller
     public function checkNotifications(Request $req){
 
         $user = user::find($req->session()->get('userId'));
-        $notifications = notification::all();
+        $notifications = productRequest::all();
 
         return view('user.admin.checkNotifications',$user)->with('notification', $notifications);
+    }
+
+    public function salesReport(Request $req){
+
+        $user = user::find($req->session()->get('userId'));
+
+        $productRequest = productRequest::all();
+
+        return view('user.admin.salesReport',$user)->with('productRequest', $productRequest);
+    }
+
+    public function purchaseReport(Request $req){
+
+        $user = user::find($req->session()->get('userId'));
+
+        $product = product::all();
+
+        return view('user.admin.purchaseReport',$user)->with('product', $product);
     }
 
     public function accepted(Request $req){
@@ -570,7 +711,7 @@ class adminController extends Controller
             
             $requestId = $req->get('requestId');
 
-            $notification = notification::find($requestId);
+            $notification = productRequest::find($requestId);
 
             $notification->approval = 'accepted';
 
@@ -585,7 +726,7 @@ class adminController extends Controller
             
             $requestId = $req->get('requestId');
 
-            $notification = notification::find($requestId);
+            $notification = productRequest::find($requestId);
 
             $notification->approval = 'rejected';
 

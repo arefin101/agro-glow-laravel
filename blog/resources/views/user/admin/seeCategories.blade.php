@@ -34,7 +34,7 @@
                                     @for($i = 0; $i < count($category); $i++)
                                         <tr role="row" class="odd" id="delete{{$category[$i]['id']}}">
                                             <td>{{$category[$i]['catName']}}</td> 
-                                            <td><a href="{{route('editCategory', $category[$i]['id'])}}" class="btn btn-primary">Edit</a>
+                                            <td><a href="{{route('admin_editCategory', $category[$i]['id'])}}" class="btn btn-primary">Edit</a>
                                                 <input type="button" value="Delete" class="btn btn-danger" data-id="{{$category[$i]['id']}}"> </td>                                      
                                         </tr>
                                     @endfor

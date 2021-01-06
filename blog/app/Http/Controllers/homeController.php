@@ -81,7 +81,10 @@ class homeController extends Controller
         }
 
 
-        if($req->session()->get('userType') == 'manager'){
+        if($req->session()->get('userType') == 'admin'){
+            return redirect()->route('admin');
+        }
+        else if($req->session()->get('userType') == 'manager'){
             return view('user.home', $user)->with('total', $total)->with('tasks', $tasks)->with('pendingRequests', $pendingRequests);
         }else if($req->session()->get('userType') == 'farmer'){
             return view('landingFarmer', $user)->with('product', $products)->with('user', 'user');
@@ -124,12 +127,34 @@ class homeController extends Controller
             }
     }
 
+    public function seeManagers(Request $req){
+
+        $user = user::find($req->session()->get('userId'));
+        $client = new Client();
+
+        $response = $client->request('GET', 'http://localhost:5000/getSellers');
+        if ($response->getStatusCode() == 200) {
+            $sellers = json_decode($response->getBody(), true);
+            $seller = json_decode($sellers, true);
+            return view('user.seeSellers',$user)->with('seller', $seller);
+        } else {
+            echo "Not get";
+        }
+
+        // $user = user::find($req->session()->get('userId'));
+
+        // $sellers = user::where('userType', 'seller')
+        //             ->get();
+
+        // return view('user.seeSellers',$user)->with('seller', $sellers);
+    }
+
     public function seeSellers(Request $req){
 
         $user = user::find($req->session()->get('userId'));
         $client = new Client();
 
-        $response = $client->request('GET', 'http://localhost:4000/getSellers');
+        $response = $client->request('GET', 'http://localhost:5000/getSellers');
         if ($response->getStatusCode() == 200) {
             $sellers = json_decode($response->getBody(), true);
             $seller = json_decode($sellers, true);
@@ -151,7 +176,7 @@ class homeController extends Controller
         $user = user::find($req->session()->get('userId'));
         $client = new Client();
 
-        $response = $client->request('GET', 'http://localhost:4000/getFarmers');
+        $response = $client->request('GET', 'http://localhost:5000/getFarmers');
         if ($response->getStatusCode() == 200) {
             $farmers = json_decode($response->getBody(), true);
             $farmer = json_decode($farmers, true);

@@ -54,7 +54,7 @@
                                                 <td>{{$farmer[$i]['contact']}}</td>
                                                 <td>{{$farmer[$i]['userName']}}</td>
                                                 <td>{{$farmer[$i]['userType']}}</td>    
-                                                <td><a href="{{route('editFarmer',$farmer[$i]['userId'])}}" class="btn btn-primary">Edit</a>
+                                                <td><a href="{{route('admin_editFarmer',$farmer[$i]['userId'])}}" class="btn btn-primary">Edit</a>
                                                     <input type="button" value="Delete" class="btn btn-danger" data-id="{{$farmer[$i]['userId']}}" id="delete{{$farmer[$i]['userId']}}"> 
                                                     
                                                     @if( $farmer[$i]['validity'] == 'valid')
