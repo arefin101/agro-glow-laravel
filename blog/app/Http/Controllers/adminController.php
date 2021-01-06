@@ -282,15 +282,15 @@ class adminController extends Controller
 
         $user = user::find($id);
 
-        $user->name = $req->name;
-        $user->email = $req->email;
-        $user->DOB = $req->DOB;
-        $user->contact = $req->contact;
+            $user->name = $req->name;
+            $user->email = $req->email;
+            $user->DOB = $req->DOB;
+            $user->contact = $req->contact;
 
-        if($user->save()){
-            return redirect()->route('admin_customizeManager');
-        }else{           
-        return back();
+            if($user->save()){
+                return redirect()->route('admin_customizeManager');
+            }else{           
+            return back();
         }
     }
 
