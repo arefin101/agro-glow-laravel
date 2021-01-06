@@ -37,6 +37,4 @@ class cartController extends Controller
         return view('user.addCart')->with('product', $product)->with('user', $user);
 
     }
-
-
 }
