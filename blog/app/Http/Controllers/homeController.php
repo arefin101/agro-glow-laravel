@@ -275,7 +275,7 @@ class homeController extends Controller
             $farmer->validity = 'valid';
 
             if($farmer->save()){
-                return redirect()->route('customizeFarmers');
+                return redirect()->route('customizeFarmer');
             }
         }else{           
             return redirect()->route('addFarmer');

@@ -107,6 +107,7 @@ Route::group(['middleware' => ['sess']], function(){
     Route::post('/home/Add_Farmer', 'homeController@addedFarmer')->name('addedFarmer');
     
     Route::get('/home/Customize_Seller', 'homeController@customizeSeller')->name('customizeSeller');
+
     Route::get('/home/Edit_Seller/{id}', 'homeController@editSeller')->name('editSeller');
     Route::post('/home/Edit_Seller/{id}', 'homeController@editedSeller')->name('editedSeller');
     Route::get('/validitySeller', 'homeController@validitySeller');
@@ -129,6 +130,8 @@ Route::group(['middleware' => ['sess']], function(){
     Route::post('/home/ADD_Product', 'homeController@addedProduct')->name('addedProduct');
 
     Route::get('/home/Customize_Products', 'homeController@customizeProducts')->name('customizeProducts');
+    Route::post('/home/Customize_Products', 'LiveSearch@index1');
+    Route::get('/live_search/action', 'LiveSearch@action')->name('live_search.action');
     Route::get('/home/Edit_Product/{id}', 'homeController@editProduct')->name('editProduct');
     Route::post('/home/Edit_Product/{id}', 'homeController@editedProduct')->name('editedProduct');
     Route::get('/home/Delete_Product/{id}', 'homeController@deleteProduct')->name('deleteProduct');

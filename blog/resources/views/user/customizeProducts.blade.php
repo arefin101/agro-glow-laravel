@@ -11,9 +11,12 @@
                     <h1 class="m-0 font-weight-bold text-primary">Products</h1>
                 </div>
                 <div class="col-sm-12 col-md-6">
-                    <div id="dataTable_filter" class="dataTables_filter">
-                        <label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label>
-                    </div>
+                    <form method="post">
+                        @csrf
+                        <div class="form-group">
+                            <input type="text" name="search" id="search" class="form-control-sm" placeholder="Search Product" />
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -43,18 +46,6 @@
                                     </tr>
                                 </tfoot>
                                 <tbody>     
-                                    @for($i = 0; $i < count($product); $i++)
-                                        <tr role="row" class="odd">
-                                                <td>{{$product[$i]['productName']}}</td>
-                                                <td>{{$product[$i]['description']}}</td>
-                                                <td>{{$product[$i]['price']}}</td>
-                                                <td>{{$product[$i]['quantity']}}</td>
-                                                <td>{{$product[$i]['expDate']}}</td>                                                
-                                                <td><a href="{{route('editProduct', $product[$i]['id'] )}}" class="btn btn-primary">Edit</a>
-                                                    <a href="{{route('deleteProduct', $product[$i]['id'] )}}" class="btn btn-danger">Delete</a>
-                                                </td>                                                
-                                        </tr>
-                                    @endfor
                                 </tbody>
                             </table>
                         </div>
@@ -64,5 +55,39 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+<script>
+            
+        $(document).ready(function() {
+
+            fetch_customer_data();
+
+        function fetch_customer_data(query = '')
+        {
+            $.ajax({
+                url:"{{ route('live_search.action') }}",
+                method:'GET',
+                data:{query:query},
+                dataType:'json',
+                success:function(data)
+                {
+                    $('tbody').html(data.table_data);
+                },
+             
+            })
+        }
+
+        $(document).on('keyup', '#search', function(){
+            var query = $(this).val();
+            fetch_customer_data(query);
+        });
+                
+
+  });
+   
+</script>
 
 @endsection
