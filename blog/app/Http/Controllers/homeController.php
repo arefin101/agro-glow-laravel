@@ -18,8 +18,34 @@ class homeController extends Controller
     public function downloadPDF() {
         
         $show = productRequest::all();
+        $notification = productRequest::all();
+        $total = 0;
+        $totalRequest = 0;
+        $acceptedRequest = 0;
+        $tasks = 0;
+        $pendingRequests = 0;
 
-        $pdf = PDF::loadView('user.pdf', compact('show'));
+
+        if(count($notification)==0){
+            $totalRequest = 0;
+            $total = 0;
+            $acceptedRequest = 0;
+            $tasks = 0;
+            $pendingRequests = 0;
+        }else{           
+            for($i = 0; $i < count($notification); $i++){
+                $totalRequest = $totalRequest + 1;
+                if($notification[$i]['approval'] == 'served'){
+                    $total = $total + $notification[$i]['price'];
+                    $acceptedRequest = $acceptedRequest + 1;
+                }
+            }
+            $tasks = $acceptedRequest;
+            $pendingRequests = $totalRequest - $acceptedRequest;
+        }
+
+
+        $pdf = PDF::loadView('user.pdf', compact('show'), compact('total', 'tasks', 'pendingRequests'));
         
         return $pdf->download('productRequest.pdf');
     }
@@ -36,16 +62,24 @@ class homeController extends Controller
         $pendingRequests = 0;
 
 
-        for($i = 0; $i < count($notification); $i++){
-            $totalRequest = $totalRequest + 1;
-            if($notification[$i]['approval'] == 'accepted'){
-                $total = $total + $notification[$i]['price'];
-                $acceptedRequest = $acceptedRequest + 1;
+        if(count($notification)==0){
+            $totalRequest = 0;
+            $total = 0;
+            $acceptedRequest = 0;
+            $tasks = 0;
+            $pendingRequests = 0;
+        }else{           
+            for($i = 0; $i < count($notification); $i++){
+                $totalRequest = $totalRequest + 1;
+                if($notification[$i]['approval'] == 'served'){
+                    $total = $total + $notification[$i]['price'];
+                    $acceptedRequest = $acceptedRequest + 1;
+                }
             }
+            $tasks = ($acceptedRequest/$totalRequest)*100;
+            $pendingRequests = $totalRequest - $acceptedRequest;
         }
 
-        $tasks = ($acceptedRequest/$totalRequest)*100;
-        $pendingRequests = $totalRequest - $acceptedRequest;
 
         if($req->session()->get('userType') == 'manager'){
             return view('user.home', $user)->with('total', $total)->with('tasks', $tasks)->with('pendingRequests', $pendingRequests);
@@ -402,7 +436,7 @@ class homeController extends Controller
 
         $req->validate([
             
-            'name'=>'required',
+            'category'=>'required',
             
            ]);
 
@@ -496,7 +530,7 @@ class homeController extends Controller
                 $product->imageURL = $file->getClientOriginalName();
 
                 if($product->save()){
-                    return back();
+                    return redirect()->route('customizeProducts');
                 }else{
                     echo 'error';
                 }
@@ -589,7 +623,7 @@ class homeController extends Controller
 
             $notification = productRequest::find($requestId);
 
-            $notification->approval = 'accepted';
+            $notification->approval = 'served';
 
             $notification->save();
         
@@ -604,7 +638,7 @@ class homeController extends Controller
 
             $notification = productRequest::find($requestId);
 
-            $notification->approval = 'rejected';
+            $notification->approval = 'pending';
 
             $notification->save();
         

@@ -77,7 +77,7 @@
                                                 data:{'requestId':id},
                                                 success:function(data){ 
                                                     
-                                                    $(elementId).html('accepted');
+                                                    $(elementId).html('served');
                                                     
                                                 },  
                                                 error:function(data){  
@@ -97,7 +97,7 @@
                                                 data:{'requestId':id},
                                                 success:function(data){ 
                                                     
-                                                    $(elementId).html('rejected');
+                                                    $(elementId).html('pending');
                                                     
                                                 },  
                                                 error:function(data){  

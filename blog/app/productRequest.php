@@ -10,5 +10,5 @@ class productRequest extends Model
 	protected $primaryKey = "id";
 	public $timestamps = false;
 
-	protected $fillable = ['user', 'category', 'productName', 'quantity', 'price'];
+	protected $fillable = ['user', 'category', 'productName', 'quantity', 'price', 'approval'];
 }

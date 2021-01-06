@@ -29,6 +29,7 @@
                   name="productName"
                   type="text"
                   class="form-control validate"
+                  value="{{old('productName')}}"
                 />
                 @error('productName')
                                 <div style="color:red; text-align:center">{{$message}}</div>
@@ -43,7 +44,7 @@
                   class="form-control validate"
                   rows="3"
                   name="description"
-                ></textarea>
+                >{{old('description')}}</textarea>
                 @error('description')
                                 <div style="color:red; text-align:center">{{$message}}</div>
                                 @enderror
@@ -54,7 +55,7 @@
                   >Category</label
                 >
                 <select name="category" class="custom-select tm-select-accounts"
-                id="category">
+                id="category" value="{{old('category')}}">
                 <option selected >Select Category</option>
                   @for($i = 0; $i < count($category); $i++)
                     <option value="{{$category[$i]['catName']}}">{{$category[$i]['catName']}}</option>
@@ -76,6 +77,7 @@
                         type="text"
                         class="form-control validate"
                         data-large-mode="true"
+                        value="{{old('expDate')}}"
                       />
                       @error('expDate')
                                 <div style="color:red; text-align:center">{{$message}}</div>
@@ -91,6 +93,7 @@
                         name="quantity"
                         type="text"
                         class="form-control validate"
+                        value="{{old('quantity')}}"
                       />
                       @error('quantity')
                                 <div style="color:red; text-align:center">{{$message}}</div>
@@ -107,6 +110,7 @@
                   name="price"
                   type="text"
                   class="form-control validate"
+                  value="{{old('price')}}"
                 />
                 @error('price')
                                 <div style="color:red; text-align:center">{{$message}}</div>
@@ -116,7 +120,7 @@
           <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
             <img id="myImg" src="#" alt="your image" class="thumb">
           </br>
-          <input type='file' name="productImage"/>
+          <input type='file' name="productImage" value="{{old('productImage')}}"/>
           @error('productImage')
                                 <div style="color:red;">{{$message}}</div>
                                 @enderror

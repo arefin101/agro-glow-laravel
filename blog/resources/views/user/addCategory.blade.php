@@ -29,7 +29,7 @@
                   type="text"
                   class="form-control validate"
                 />
-                @error('name')
+                @error('category')
                 <div style="color:red; text-align:center">{{$message}}</div>
                 @enderror
               </div>
