@@ -8,6 +8,7 @@ use App\category;
 use App\product;
 use App\notification;
 use App\productRequest;
+use App\productPurchased;
 
 class adminController extends Controller
 {
@@ -18,6 +19,7 @@ class adminController extends Controller
         $notification = productRequest::all();
         $total = 0;
         $totalRequest = 0;
+        $purchaseTotal = 0;
         $acceptedRequest = 0;
         $tasks = 0;
         $pendingRequests = 0;
@@ -31,35 +33,49 @@ class adminController extends Controller
             }
         }
 
+        for($i = 0; $i < count($products); $i++){
+            $purchaseTotal = $purchaseTotal + ((float)$products[$i]['price']*(int)$products[$i]['quantity']);
+        }
+
         $tasks = ($acceptedRequest/$totalRequest)*100;
         $pendingRequests = $totalRequest - $acceptedRequest;
       
-            return view('user.admin.adminDashboard', $user)->with('total', $total)->with('tasks', $tasks)->with('pendingRequests', $pendingRequests);
+            return view('user.admin.adminDashboard', $user)->with('total', $total)->with('purchaseTotal', $purchaseTotal)->with('tasks', $tasks)->with('pendingRequests', $pendingRequests);
     }
 
 
-    public function profile(Request $req, $id){
+    public function profile(Request $req){
 
         $user = user::find($req->session()->get('userId'));
-        $admin = user::where('userId', $id)->get();
 
-        return view('user.admin.profile',$user)->with('admin', $admin);
+        $userInfo = user::where('userId', $user['userId'])
+                    ->get();
+
+        return view('user.admin.profile',$user)->with('userInfo', $userInfo);
     }
 
-    public function editedProfile(Request $req, $id){
+    public function profile_edited(Request $req){
 
-        $user = user::find($id);
+        $req->validate([
+            'name'=>'required',
+            'email'=>'required',
+            'DOB'=>'required',
+            'contact'=>'required|min:11|max:11',
+            
+           ]);
 
-            $user->name = $req->name;
-            $user->email = $req->email;
-            $user->DOB = $req->DOB;
-            $user->contact = $req->contact;
+        $user = user::find($req->session()->get('userId'));
+        $userInfo = user::where('userId', $user['userId'])
+                    ->get();
+
+        $user->name = $req->name;
+        $user->email = $req->email;
+        $user->DOB = $req->DOB;
+        $user->contact = $req->contact;
 
             if($user->save()){
-                return redirect()->route('admin');
-            }else{           
-            return back();
-        }
+                return back();
+            }
     }
 
     public function seeManagers(Request $req){
@@ -558,6 +574,7 @@ class adminController extends Controller
            ]);
 
         $product = new product;
+        $productPurchased = new productPurchased;
         
         if($req->hasFile('productImage')){
             
@@ -573,8 +590,13 @@ class adminController extends Controller
                 $product->description = $req->description;
                 $product->imageURL = $file->getClientOriginalName();
 
-                if($product->save()){
-                    return back();
+                $productPurchased->name = $req->productName;
+                $productPurchased->category = $req->category;
+                $productPurchased->price = $req->price;
+                $productPurchased->quantity = $req->quantity;
+
+                if($product->save() && $productPurchased->save()){
+                    return redirect()->route('admin_seeProduct');
                 }else{
                     echo 'error';
                 }
@@ -631,7 +653,7 @@ class adminController extends Controller
                 $product->imageURL = $file->getClientOriginalName();
 
                 if($product->save()){
-                    return redirect()->route('admin_seeProduct');
+                    return redirect()->route('admin_customizeProducts');
                 }else{
                     return back();
                 }
@@ -672,6 +694,15 @@ class adminController extends Controller
         $productRequest = productRequest::all();
 
         return view('user.admin.salesReport',$user)->with('productRequest', $productRequest);
+    }
+
+    public function purchaseReport(Request $req){
+
+        $user = user::find($req->session()->get('userId'));
+
+        $product = product::all();
+
+        return view('user.admin.purchaseReport',$user)->with('product', $product);
     }
 
     public function accepted(Request $req){

@@ -30,6 +30,11 @@ Route::group(['middleware' => ['sess']], function(){
     //Admin Routes
 
     //***************************************** Users ******************************** */
+
+    
+    Route::get('/home/admin/Profile', 'adminController@profile')->name('admin_profile');
+    Route::post('/home/admin/Profile', 'adminController@profile_edited')->name('admin_profileEdited');
+
     Route::get('/home/admin/Manager_List', 'adminController@seeManagers')->name('admin_seeManagers');
     Route::get('/home/admin/Seller_List', 'adminController@seeSellers')->name('admin_seeSellers');
     Route::get('/home/admin/Farmer_List', 'adminController@seeFarmers')->name('admin_seeFarmers');

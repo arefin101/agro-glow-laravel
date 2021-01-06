@@ -8,7 +8,7 @@
         <div class="card-header py-3">
             <div class="row">
                 <div class="col-sm-12 col-md-6">
-                    <h1 class="m-0 font-weight-bold text-primary">Products</h1>
+                    <h1 class="m-0 font-weight-bold text-primary">Sales Report</h1>
                 </div>
                 <div class="col-sm-12 col-md-6">
                     <div id="dataTable_filter" class="dataTables_filter">
@@ -18,9 +18,13 @@
             </div>
         </div>
 
+        <?php
+        $total=0; 
+        ?>  
         @for($i = 0; $i < count($productRequest); $i++)
-            {{$total=0}}
-            {{ $total += $productRequest[$i]['price']}}
+            <?php
+            $total += (float)$productRequest[$i]['price'] ;
+            ?>                        
         @endfor
 
 

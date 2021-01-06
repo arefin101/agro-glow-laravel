@@ -30,8 +30,8 @@
                   value="{{$product[0]['productName']}} "
                 />
                 @error('productName')
-                                <div style="color:red;">{{$message}}</div>
-                                @enderror
+                  <div style="color:red;">{{$message}}</div>
+                @enderror
               </div>
               <div class="form-group mb-3">
                 <label
@@ -117,7 +117,7 @@
           </div>
           <div class="col-12">
             <button type="submit" class="btn btn-primary btn-block text-uppercase">Update</button>
-            <a href="{{route('customizeProducts')}}" class="btn btn-primary  btn-block text-uppercase">
+            <a href="{{route('admin_customizeProducts')}}" class="btn btn-primary  btn-block text-uppercase">
               Back
           </a>
           </div>
