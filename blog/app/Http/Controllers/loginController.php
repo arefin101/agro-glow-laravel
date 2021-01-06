@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 // use Illuminate\Support\Facades\DB;
 use App\user;
+use App\product;
 use Laravel\Socialite\Facades\Socialite;
 
 class loginController extends Controller
@@ -50,10 +51,12 @@ class loginController extends Controller
         }
     }
 
+
     public function login(){
         return view('login');
     }
 
+    
     public function verify(Request $req){
 
         $req->validate([
@@ -101,16 +104,15 @@ class loginController extends Controller
     {
         $socialUser = Socialite::driver('google')->stateless()->user();
 
-
         $finduser = user::where('email', $socialUser->email)->first();
-        
-        $user = new user;
-
-        
-        if($finduser){
-            return redirect('/home');
+                
+        dd($socialUser);
+        if($finduser ){
+            return view('landingFarmer', $finduser);
         }
         else{
+            $user = new user;
+
             $user->name = $socialUser->name;
             $user->userName = $socialUser->name;
             $user->userType = 'farmer';
@@ -120,6 +122,7 @@ class loginController extends Controller
             $user->image = 'null';
             $user->password = '1234';
             $user->validity = 'valid';
+
             if($user->save()){
                 return redirect()->route('login');
             }
