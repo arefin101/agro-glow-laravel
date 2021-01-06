@@ -18,6 +18,9 @@ Route::post('/register', 'loginController@registered')->name('registered');
 Route::get('/login', 'loginController@login')->name('login');
 Route::post('/login', 'loginController@verify')->name('verify');
 
+Route::get('/login/google', 'loginController@google')->name('google-login');
+Route::get('/login/google/redirect', 'loginController@googleRedirect')->name('googleReditrect');
+
 Route::get('/logout', 'logoutController@destroy')->name('logout');
 
 Route::group(['middleware' => ['sess']], function(){
