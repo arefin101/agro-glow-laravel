@@ -30,8 +30,8 @@
                   value="{{$product[0]['productName']}} "
                 />
                 @error('productName')
-                  <div style="color:red;">{{$message}}</div>
-                @enderror
+                                <div style="color:red;">{{$message}}</div>
+                                @enderror
               </div>
               <div class="form-group mb-3">
                 <label

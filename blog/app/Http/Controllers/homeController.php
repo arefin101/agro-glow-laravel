@@ -132,7 +132,7 @@ class homeController extends Controller
         $user = user::find($req->session()->get('userId'));
         $client = new Client();
 
-        $response = $client->request('GET', 'http://localhost:5000/getSellers');
+        $response = $client->request('GET', 'http://localhost:4000/getSellers');
         if ($response->getStatusCode() == 200) {
             $sellers = json_decode($response->getBody(), true);
             $seller = json_decode($sellers, true);
@@ -154,7 +154,7 @@ class homeController extends Controller
         $user = user::find($req->session()->get('userId'));
         $client = new Client();
 
-        $response = $client->request('GET', 'http://localhost:5000/getSellers');
+        $response = $client->request('GET', 'http://localhost:4000/getSellers');
         if ($response->getStatusCode() == 200) {
             $sellers = json_decode($response->getBody(), true);
             $seller = json_decode($sellers, true);
@@ -176,7 +176,7 @@ class homeController extends Controller
         $user = user::find($req->session()->get('userId'));
         $client = new Client();
 
-        $response = $client->request('GET', 'http://localhost:5000/getFarmers');
+        $response = $client->request('GET', 'http://localhost:4000/getFarmers');
         if ($response->getStatusCode() == 200) {
             $farmers = json_decode($response->getBody(), true);
             $farmer = json_decode($farmers, true);

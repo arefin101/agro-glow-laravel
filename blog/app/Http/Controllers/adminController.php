@@ -9,6 +9,7 @@ use App\product;
 use App\notification;
 use App\productRequest;
 use App\productPurchased;
+use GuzzleHttp\Client;
 
 class adminController extends Controller
 {
@@ -81,31 +82,46 @@ class adminController extends Controller
     public function seeManagers(Request $req){
 
         $user = user::find($req->session()->get('userId'));
+        $client = new Client();
 
-        $manager = user::where('userType', 'manager')
-                    ->get();
-
-        return view('user.admin.seeManagers',$user)->with('manager', $manager);
+        $response = $client->request('GET', 'http://localhost:4000/getManagers');
+        if ($response->getStatusCode() == 200) {
+            $managers = json_decode($response->getBody(), true);
+            $manager = json_decode($managers, true);
+            return view('user.admin.seeManagers',$user)->with('manager', $manager);
+        } else {
+            echo "Not get";
+        }
     }
 
     public function seeSellers(Request $req){
 
         $user = user::find($req->session()->get('userId'));
+        $client = new Client();
 
-        $sellers = user::where('userType', 'seller')
-                    ->get();
-
-        return view('user.admin.seeSellers',$user)->with('seller', $sellers);
+        $response = $client->request('GET', 'http://localhost:4000/getSellers');
+        if ($response->getStatusCode() == 200) {
+            $sellers = json_decode($response->getBody(), true);
+            $seller = json_decode($sellers, true);
+            return view('user.admin.seeSellers',$user)->with('seller', $seller);
+        } else {
+            echo "Not get";
+        }
     }
 
     public function seeFarmers(Request $req){
 
         $user = user::find($req->session()->get('userId'));
+        $client = new Client();
 
-        $farmers = user::where('userType', 'farmer')
-                    ->get();
-
-        return view('user.admin.seeFarmers',$user)->with('farmer', $farmers);
+        $response = $client->request('GET', 'http://localhost:4000/getFarmers');
+        if ($response->getStatusCode() == 200) {
+            $farmers = json_decode($response->getBody(), true);
+            $farmer = json_decode($farmers, true);
+            return view('user.admin.seeFarmers',$user)->with('farmer', $farmer);
+        } else {
+            echo "Not get";
+        }
     }
 
     public function addManager(Request $req){
@@ -277,7 +293,6 @@ class adminController extends Controller
             'email'=>'required',
             'DOB'=>'required',
             'contact'=>'required|min:11',
-            
            ]);
 
         $user = user::find($id);
@@ -496,10 +511,10 @@ class adminController extends Controller
 
         $req->validate([
             
-            'name'=>'required',
+            'category'=>'required',
             
            ]);
-           
+
         $category = new category;
         
         $category->catName = $req->category;
@@ -636,6 +651,17 @@ class adminController extends Controller
 
     public function editedProduct(Request $req, $id){
 
+        $req->validate([
+            
+            'productName'=>'required',
+            'category'=>'required',
+            'price'=>'integer',
+            'quantity'=>'integer',
+            'expDate'=>'required',
+            'description'=>'required',
+            
+           ]);
+           
         $product = product::find($id);
         
         if($req->hasFile('productImage')){
